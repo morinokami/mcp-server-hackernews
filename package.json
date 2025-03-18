@@ -1,0 +1,48 @@
+{
+	"name": "mcp-server-hackernews",
+	"description": "MCP Server for Hacker News",
+	"version": "0.0.1",
+	"type": "module",
+	"author": "Shinya Fujino <shf0811@gmail.com> (https://github.com/morinokami)",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/morinokami/mcp-server-hackernews.git"
+	},
+	"bugs": {
+		"url": "https://github.com/morinokami/mcp-server-hackernews/issues"
+	},
+	"keywords": [
+		"modelcontextprotocol",
+		"mcp",
+		"hackernews"
+	],
+	"packageManager": "pnpm@10.6.4",
+	"bin": {
+		"mcp-server-hackernews": "dist/index.js"
+	},
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "tsc && shx chmod 755 dist/*.js",
+		"test": "vitest"
+	},
+	"dependencies": {
+		"@modelcontextprotocol/sdk": "1.7.0",
+		"zod": "3.24.2"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "1.9.4",
+		"@types/node": "22.13.10",
+		"shx": "0.4.0",
+		"typescript": "5.8.2",
+		"vitest": "3.0.9"
+	},
+	"pnpm": {
+		"onlyBuiltDependencies": [
+			"@biomejs/biome",
+			"esbuild"
+		]
+	}
+}
