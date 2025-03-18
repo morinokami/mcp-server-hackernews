@@ -44,15 +44,27 @@ server.tool(
 		id: z.number(),
 	},
 	async ({ id }) => {
-		const story = await getStory(id);
-		return {
-			content: [
-				{
-					type: "text",
-					text: JSON.stringify(story),
-				},
-			],
-		};
+		try {
+			const story = await getStory(id);
+			return {
+				content: [
+					{
+						type: "text",
+						text: JSON.stringify(story),
+					},
+				],
+			};
+		} catch (error) {
+			return {
+				isError: true,
+				content: [
+					{
+						type: "text",
+						text: `Error retrieving story: ${error instanceof Error ? error.message : String(error)}`,
+					},
+				],
+			};
+		}
 	},
 );
 
