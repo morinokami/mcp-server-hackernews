@@ -9,26 +9,20 @@
 		"type": "git",
 		"url": "git+https://github.com/morinokami/mcp-server-hackernews.git"
 	},
-	"bugs": {
-		"url": "https://github.com/morinokami/mcp-server-hackernews/issues"
-	},
-	"keywords": [
-		"modelcontextprotocol",
-		"mcp",
-		"hackernews"
-	],
+	"bugs": "https://github.com/morinokami/mcp-server-hackernews/issues",
+	"keywords": ["modelcontextprotocol", "mcp", "hackernews"],
 	"packageManager": "pnpm@10.6.4",
 	"bin": {
 		"mcp-server-hackernews": "dist/index.js"
 	},
-	"files": [
-		"dist"
-	],
+	"files": ["dist"],
 	"scripts": {
 		"build": "tsc && shx chmod 755 dist/*.js",
+		"inspect": "mcp-inspector node dist/index.js",
 		"test": "vitest"
 	},
 	"dependencies": {
+		"@modelcontextprotocol/inspector": "0.6.0",
 		"@modelcontextprotocol/sdk": "1.7.0",
 		"zod": "3.24.2"
 	},
@@ -40,9 +34,6 @@
 		"vitest": "3.0.9"
 	},
 	"pnpm": {
-		"onlyBuiltDependencies": [
-			"@biomejs/biome",
-			"esbuild"
-		]
+		"onlyBuiltDependencies": ["@biomejs/biome", "esbuild"]
 	}
 }
