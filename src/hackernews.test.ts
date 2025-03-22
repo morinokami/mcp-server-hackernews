@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import {
+	type StoryType,
 	getBestStories,
 	getNewStories,
 	getStory,
@@ -15,64 +16,34 @@ describe("Hacker News API", () => {
 		vi.resetAllMocks();
 	});
 
-	describe("getTopStories", () => {
-		it("should fetch and return top stories", async () => {
-			const mockStories = [1, 2, 3];
-			mockFetch.mockResolvedValueOnce({
-				json: () => Promise.resolve(mockStories),
-			});
+	describe("getStories", () => {
+		const storyTestCases: Array<[StoryType, string, () => Promise<number[]>]> =
+			[
+				["top", "topstories", getTopStories],
+				["best", "beststories", getBestStories],
+				["new", "newstories", getNewStories],
+			];
 
-			const result = await getTopStories();
-			expect(result).toEqual(mockStories);
-			expect(mockFetch).toHaveBeenCalledWith(
-				"https://hacker-news.firebaseio.com/v0/topstories.json",
-				{
-					headers: {
-						"User-Agent": "hackernews-app/0.0.1",
+		it.each(storyTestCases)(
+			"should fetch and return %s stories",
+			async (_, endpoint, getStoriesFn) => {
+				const mockStories = [1, 2, 3];
+				mockFetch.mockResolvedValueOnce({
+					json: () => Promise.resolve(mockStories),
+				});
+
+				const result = await getStoriesFn();
+				expect(result).toEqual(mockStories);
+				expect(mockFetch).toHaveBeenCalledWith(
+					`https://hacker-news.firebaseio.com/v0/${endpoint}.json`,
+					{
+						headers: {
+							"User-Agent": "hackernews-app/0.0.1",
+						},
 					},
-				},
-			);
-		});
-	});
-
-	describe("getBestStories", () => {
-		it("should fetch and return best stories", async () => {
-			const mockStories = [1, 2, 3];
-			mockFetch.mockResolvedValueOnce({
-				json: () => Promise.resolve(mockStories),
-			});
-
-			const result = await getBestStories();
-			expect(result).toEqual(mockStories);
-			expect(mockFetch).toHaveBeenCalledWith(
-				"https://hacker-news.firebaseio.com/v0/beststories.json",
-				{
-					headers: {
-						"User-Agent": "hackernews-app/0.0.1",
-					},
-				},
-			);
-		});
-	});
-
-	describe("getNewStories", () => {
-		it("should fetch and return new stories", async () => {
-			const mockStories = [1, 2, 3];
-			mockFetch.mockResolvedValueOnce({
-				json: () => Promise.resolve(mockStories),
-			});
-
-			const result = await getNewStories();
-			expect(result).toEqual(mockStories);
-			expect(mockFetch).toHaveBeenCalledWith(
-				"https://hacker-news.firebaseio.com/v0/newstories.json",
-				{
-					headers: {
-						"User-Agent": "hackernews-app/0.0.1",
-					},
-				},
-			);
-		});
+				);
+			},
+		);
 	});
 
 	describe("getStory", () => {

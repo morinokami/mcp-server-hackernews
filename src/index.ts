@@ -5,6 +5,7 @@ import {
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 
 import {
+	type StoryType,
 	getBestStories,
 	getNewStories,
 	getStory,
@@ -16,56 +17,33 @@ const server = new McpServer({
 	version: "0.0.1",
 });
 
-server.resource(
-	"top-stories",
-	"https://hacker-news.firebaseio.com/v0/topstories.json",
-	async (uri) => {
-		const stories = await getTopStories();
-		return {
-			contents: [
-				{
-					uri: uri.href,
-					text: JSON.stringify(stories),
-					mimeType: "application/json",
-				},
-			],
-		};
-	},
-);
+function registerStoryResource(type: StoryType) {
+	const getStories = {
+		top: getTopStories,
+		best: getBestStories,
+		new: getNewStories,
+	}[type];
 
-server.resource(
-	"best-stories",
-	"https://hacker-news.firebaseio.com/v0/beststories.json",
-	async (uri) => {
-		const stories = await getBestStories();
-		return {
-			contents: [
-				{
-					uri: uri.href,
-					text: JSON.stringify(stories),
-					mimeType: "application/json",
-				},
-			],
-		};
-	},
-);
-
-server.resource(
-	"new-stories",
-	"https://hacker-news.firebaseio.com/v0/newstories.json",
-	async (uri) => {
-		const stories = await getNewStories();
-		return {
-			contents: [
-				{
-					uri: uri.href,
-					text: JSON.stringify(stories),
-					mimeType: "application/json",
-				},
-			],
-		};
-	},
-);
+	server.resource(
+		`${type}-stories`,
+		`https://hacker-news.firebaseio.com/v0/${type}stories.json`,
+		async (uri) => {
+			const stories = await getStories();
+			return {
+				contents: [
+					{
+						uri: uri.href,
+						text: JSON.stringify(stories),
+						mimeType: "application/json",
+					},
+				],
+			};
+		},
+	);
+}
+registerStoryResource("top");
+registerStoryResource("best");
+registerStoryResource("new");
 
 server.resource(
 	"story",

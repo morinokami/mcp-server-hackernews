@@ -19,8 +19,10 @@ type HNItem = {
 	descendants?: number;
 };
 
-export async function getTopStories(): Promise<number[]> {
-	const url = `${HN_API_BASE}/topstories.json`;
+export type StoryType = "top" | "best" | "new";
+
+async function getStories(type: StoryType): Promise<number[]> {
+	const url = `${HN_API_BASE}/${type}stories.json`;
 	const response = await fetch(url, {
 		headers: {
 			"User-Agent": USER_AGENT,
@@ -31,28 +33,16 @@ export async function getTopStories(): Promise<number[]> {
 	return data;
 }
 
-export async function getBestStories(): Promise<number[]> {
-	const url = `${HN_API_BASE}/beststories.json`;
-	const response = await fetch(url, {
-		headers: {
-			"User-Agent": USER_AGENT,
-		},
-	});
-	const data = await response.json();
-
-	return data;
+export async function getTopStories() {
+	return getStories("top");
 }
 
-export async function getNewStories(): Promise<number[]> {
-	const url = `${HN_API_BASE}/newstories.json`;
-	const response = await fetch(url, {
-		headers: {
-			"User-Agent": USER_AGENT,
-		},
-	});
-	const data = await response.json();
+export async function getBestStories() {
+	return getStories("best");
+}
 
-	return data;
+export async function getNewStories() {
+	return getStories("new");
 }
 
 export async function getStory(id: number): Promise<HNItem> {
