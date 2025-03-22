@@ -1,6 +1,8 @@
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import {
+	McpServer,
+	ResourceTemplate,
+} from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { z } from "zod";
 
 import { getStory, getTopStories } from "./hackernews.js";
 
@@ -9,62 +11,39 @@ const server = new McpServer({
 	version: "0.0.1",
 });
 
-server.tool(
-	"get-top-stories",
-	"Retrieves the current top stories from Hacker News",
-	async () => {
-		try {
-			const stories = await getTopStories();
-			return {
-				content: [
-					{
-						type: "text",
-						text: JSON.stringify(stories),
-					},
-				],
-			};
-		} catch (error) {
-			return {
-				isError: true,
-				content: [
-					{
-						type: "text",
-						text: `Error retrieving top stories: ${error instanceof Error ? error.message : String(error)}`,
-					},
-				],
-			};
-		}
+server.resource(
+	"top-stories",
+	"https://hacker-news.firebaseio.com/v0/topstories.json",
+	async (uri) => {
+		const stories = await getTopStories();
+		return {
+			contents: [
+				{
+					uri: uri.href,
+					text: JSON.stringify(stories),
+					mimeType: "application/json",
+				},
+			],
+		};
 	},
 );
 
-server.tool(
-	"get-story",
-	"Retrieves a story from Hacker News",
-	{
-		id: z.number(),
-	},
-	async ({ id }) => {
-		try {
-			const story = await getStory(id);
-			return {
-				content: [
-					{
-						type: "text",
-						text: JSON.stringify(story),
-					},
-				],
-			};
-		} catch (error) {
-			return {
-				isError: true,
-				content: [
-					{
-						type: "text",
-						text: `Error retrieving story: ${error instanceof Error ? error.message : String(error)}`,
-					},
-				],
-			};
-		}
+server.resource(
+	"story",
+	new ResourceTemplate("https://hacker-news.firebaseio.com/v0/item/{id}.json", {
+		list: undefined,
+	}),
+	async (uri, { id }) => {
+		const story = await getStory(Number(id));
+		return {
+			contents: [
+				{
+					uri: uri.href,
+					text: JSON.stringify(story),
+					mimeType: "application/json",
+				},
+			],
+		};
 	},
 );
 
