@@ -1,15 +1,22 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import {
+	HN_API_BASE,
 	type StoryType,
+	USER_AGENT,
 	getBestStories,
 	getNewStories,
 	getStory,
 	getTopStories,
+	getUser,
 } from "./hackernews.js";
 
 const mockFetch = vi.fn();
 global.fetch = mockFetch;
+
+const headers = {
+	"User-Agent": USER_AGENT,
+};
 
 describe("Hacker News API", () => {
 	beforeEach(() => {
@@ -35,11 +42,9 @@ describe("Hacker News API", () => {
 				const result = await getStoriesFn();
 				expect(result).toEqual(mockStories);
 				expect(mockFetch).toHaveBeenCalledWith(
-					`https://hacker-news.firebaseio.com/v0/${endpoint}.json`,
+					`${HN_API_BASE}/${endpoint}.json`,
 					{
-						headers: {
-							"User-Agent": "hackernews-app/0.0.1",
-						},
+						headers,
 					},
 				);
 			},
@@ -65,14 +70,9 @@ describe("Hacker News API", () => {
 
 			const result = await getStory(1);
 			expect(result).toEqual(mockStory);
-			expect(mockFetch).toHaveBeenCalledWith(
-				"https://hacker-news.firebaseio.com/v0/item/1.json",
-				{
-					headers: {
-						"User-Agent": "hackernews-app/0.0.1",
-					},
-				},
-			);
+			expect(mockFetch).toHaveBeenCalledWith(`${HN_API_BASE}/item/1.json`, {
+				headers,
+			});
 		});
 
 		it("should handle a comment type", async () => {
@@ -92,12 +92,31 @@ describe("Hacker News API", () => {
 
 			const result = await getStory(2);
 			expect(result).toEqual(mockComment);
+			expect(mockFetch).toHaveBeenCalledWith(`${HN_API_BASE}/item/2.json`, {
+				headers,
+			});
+		});
+	});
+
+	describe("getUser", () => {
+		it("should fetch and return a user", async () => {
+			const mockUser = {
+				id: "user123",
+				created: 1234567890,
+				karma: 100,
+				submitted: [1, 2, 3],
+			};
+
+			mockFetch.mockResolvedValueOnce({
+				json: () => Promise.resolve(mockUser),
+			});
+
+			const result = await getUser("user123");
+			expect(result).toEqual(mockUser);
 			expect(mockFetch).toHaveBeenCalledWith(
-				"https://hacker-news.firebaseio.com/v0/item/2.json",
+				`${HN_API_BASE}/user/user123.json`,
 				{
-					headers: {
-						"User-Agent": "hackernews-app/0.0.1",
-					},
+					headers,
 				},
 			);
 		});

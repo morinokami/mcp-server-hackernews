@@ -18,7 +18,7 @@
 	"files": ["dist"],
 	"scripts": {
 		"build": "tsc && shx chmod 755 dist/*.js",
-		"inspect": "mcp-inspector node dist/index.js",
+		"inspect": "pnpm run build && mcp-inspector node dist/index.js",
 		"test": "vitest"
 	},
 	"dependencies": {

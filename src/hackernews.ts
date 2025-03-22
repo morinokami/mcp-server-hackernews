@@ -1,5 +1,5 @@
-const HN_API_BASE = "https://hacker-news.firebaseio.com/v0";
-const USER_AGENT = "hackernews-app/0.0.1";
+export const HN_API_BASE = "https://hacker-news.firebaseio.com/v0";
+export const USER_AGENT = "hackernews-app/0.0.1";
 
 export type StoryType = "top" | "best" | "new";
 
@@ -47,6 +47,26 @@ type HNItem = {
 
 export async function getStory(id: number): Promise<HNItem> {
 	const url = `${HN_API_BASE}/item/${id}.json`;
+	const response = await fetch(url, {
+		headers: {
+			"User-Agent": USER_AGENT,
+		},
+	});
+	const data = await response.json();
+
+	return data;
+}
+
+type HNUser = {
+	id: string;
+	created: number;
+	karma: number;
+	about?: string;
+	submitted?: number[];
+};
+
+export async function getUser(id: string): Promise<HNUser> {
+	const url = `${HN_API_BASE}/user/${id}.json`;
 	const response = await fetch(url, {
 		headers: {
 			"User-Agent": USER_AGENT,

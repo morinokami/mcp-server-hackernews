@@ -5,11 +5,13 @@ import {
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 
 import {
+	HN_API_BASE,
 	type StoryType,
 	getBestStories,
 	getNewStories,
 	getStory,
 	getTopStories,
+	getUser,
 } from "./hackernews.js";
 
 const server = new McpServer({
@@ -26,7 +28,7 @@ function registerStoryResource(type: StoryType) {
 
 	server.resource(
 		`${type}-stories`,
-		`https://hacker-news.firebaseio.com/v0/${type}stories.json`,
+		`${HN_API_BASE}/${type}stories.json`,
 		async (uri) => {
 			const stories = await getStories();
 			return {
@@ -47,7 +49,7 @@ registerStoryResource("new");
 
 server.resource(
 	"story",
-	new ResourceTemplate("https://hacker-news.firebaseio.com/v0/item/{id}.json", {
+	new ResourceTemplate(`${HN_API_BASE}/item/{id}.json`, {
 		list: undefined,
 	}),
 	async (uri, { id }) => {
@@ -57,6 +59,25 @@ server.resource(
 				{
 					uri: uri.href,
 					text: JSON.stringify(story),
+					mimeType: "application/json",
+				},
+			],
+		};
+	},
+);
+
+server.resource(
+	"user",
+	new ResourceTemplate(`${HN_API_BASE}/user/{id}.json`, {
+		list: undefined,
+	}),
+	async (uri, { id }) => {
+		const user = await getUser(String(id));
+		return {
+			contents: [
+				{
+					uri: uri.href,
+					text: JSON.stringify(user),
 					mimeType: "application/json",
 				},
 			],
