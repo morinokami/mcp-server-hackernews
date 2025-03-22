@@ -4,7 +4,12 @@ import {
 } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 
-import { getStory, getTopStories } from "./hackernews.js";
+import {
+	getBestStories,
+	getNewStories,
+	getStory,
+	getTopStories,
+} from "./hackernews.js";
 
 const server = new McpServer({
 	name: "hackernews",
@@ -16,6 +21,40 @@ server.resource(
 	"https://hacker-news.firebaseio.com/v0/topstories.json",
 	async (uri) => {
 		const stories = await getTopStories();
+		return {
+			contents: [
+				{
+					uri: uri.href,
+					text: JSON.stringify(stories),
+					mimeType: "application/json",
+				},
+			],
+		};
+	},
+);
+
+server.resource(
+	"best-stories",
+	"https://hacker-news.firebaseio.com/v0/beststories.json",
+	async (uri) => {
+		const stories = await getBestStories();
+		return {
+			contents: [
+				{
+					uri: uri.href,
+					text: JSON.stringify(stories),
+					mimeType: "application/json",
+				},
+			],
+		};
+	},
+);
+
+server.resource(
+	"new-stories",
+	"https://hacker-news.firebaseio.com/v0/newstories.json",
+	async (uri) => {
+		const stories = await getNewStories();
 		return {
 			contents: [
 				{

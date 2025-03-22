@@ -1,6 +1,11 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { getStory, getTopStories } from "./hackernews.js";
+import {
+	getBestStories,
+	getNewStories,
+	getStory,
+	getTopStories,
+} from "./hackernews.js";
 
 const mockFetch = vi.fn();
 global.fetch = mockFetch;
@@ -21,6 +26,51 @@ describe("Hacker News API", () => {
 			expect(result).toEqual(mockStories);
 			expect(mockFetch).toHaveBeenCalledWith(
 				"https://hacker-news.firebaseio.com/v0/topstories.json",
+				{
+					headers: {
+						"User-Agent": "hackernews-app/0.0.1",
+					},
+				},
+			);
+		});
+	});
+
+	describe("getBestStories", () => {
+		it("should fetch and return best stories", async () => {
+			const mockStories = [1, 2, 3];
+			mockFetch.mockResolvedValueOnce({
+				json: () => Promise.resolve(mockStories),
+			});
+
+			const result = await getBestStories();
+			expect(result).toEqual(mockStories);
+			expect(mockFetch).toHaveBeenCalledWith(
+				"https://hacker-news.firebaseio.com/v0/beststories.json",
+				{
+					headers: {
+						"User-Agent": "hackernews-app/0.0.1",
+					},
+				},
+			);
+		});
+	});
+
+	describe("getNewStories", () => {
+		it("should fetch and return new stories", async () => {
+			const mockStories = [1, 2, 3];
+			mockFetch.mockResolvedValueOnce({
+				json: () => Promise.resolve(mockStories),
+			});
+
+			const result = await getNewStories();
+			expect(result).toEqual(mockStories);
+			expect(mockFetch).toHaveBeenCalledWith(
+				"https://hacker-news.firebaseio.com/v0/newstories.json",
+				{
+					headers: {
+						"User-Agent": "hackernews-app/0.0.1",
+					},
+				},
 			);
 		});
 	});
@@ -46,6 +96,11 @@ describe("Hacker News API", () => {
 			expect(result).toEqual(mockStory);
 			expect(mockFetch).toHaveBeenCalledWith(
 				"https://hacker-news.firebaseio.com/v0/item/1.json",
+				{
+					headers: {
+						"User-Agent": "hackernews-app/0.0.1",
+					},
+				},
 			);
 		});
 
@@ -68,6 +123,11 @@ describe("Hacker News API", () => {
 			expect(result).toEqual(mockComment);
 			expect(mockFetch).toHaveBeenCalledWith(
 				"https://hacker-news.firebaseio.com/v0/item/2.json",
+				{
+					headers: {
+						"User-Agent": "hackernews-app/0.0.1",
+					},
+				},
 			);
 		});
 	});

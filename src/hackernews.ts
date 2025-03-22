@@ -31,6 +31,30 @@ export async function getTopStories(): Promise<number[]> {
 	return data;
 }
 
+export async function getBestStories(): Promise<number[]> {
+	const url = `${HN_API_BASE}/beststories.json`;
+	const response = await fetch(url, {
+		headers: {
+			"User-Agent": USER_AGENT,
+		},
+	});
+	const data = await response.json();
+
+	return data;
+}
+
+export async function getNewStories(): Promise<number[]> {
+	const url = `${HN_API_BASE}/newstories.json`;
+	const response = await fetch(url, {
+		headers: {
+			"User-Agent": USER_AGENT,
+		},
+	});
+	const data = await response.json();
+
+	return data;
+}
+
 export async function getStory(id: number): Promise<HNItem> {
 	const url = `${HN_API_BASE}/item/${id}.json`;
 	const response = await fetch(url, {
