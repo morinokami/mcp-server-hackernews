@@ -28,4 +28,13 @@ A Model Context Protocol (MCP) server for fetching Hacker News data.
 
 ## Usage with Claude Desktop
 
-TODO:
+```
+{
+  "mcpServers": {
+    "hackernews": {
+      "command": "npx",
+      "args": ["-y", "mcp-server-hackernews"]
+    }
+  }
+}
+```
