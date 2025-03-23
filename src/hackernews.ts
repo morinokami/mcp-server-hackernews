@@ -1,78 +1,89 @@
-export const HN_API_BASE = "https://hacker-news.firebaseio.com/v0";
-export const USER_AGENT = "hackernews-app/0.0.1";
+import {
+	McpServer,
+	ResourceTemplate,
+} from "@modelcontextprotocol/sdk/server/mcp.js";
 
-export type StoryType = "top" | "best" | "new";
+import {
+	HN_API_BASE,
+	type StoryType,
+	getBestStories,
+	getNewStories,
+	getStory,
+	getTopStories,
+	getUser,
+} from "./api.js";
 
-async function getStories(type: StoryType): Promise<number[]> {
-	const url = `${HN_API_BASE}/${type}stories.json`;
-	const response = await fetch(url, {
-		headers: {
-			"User-Agent": USER_AGENT,
-		},
+export function createServer() {
+	const server = new McpServer({
+		name: "hackernews",
+		version: "0.0.1",
 	});
-	const data = await response.json();
 
-	return data;
-}
+	function registerStoryResource(type: StoryType) {
+		const getStories = {
+			top: getTopStories,
+			best: getBestStories,
+			new: getNewStories,
+		}[type];
 
-export async function getTopStories() {
-	return getStories("top");
-}
+		server.resource(
+			`${type}-stories`,
+			`${HN_API_BASE}/${type}stories.json`,
+			async (uri) => {
+				const stories = await getStories();
+				return {
+					contents: [
+						{
+							uri: uri.href,
+							text: JSON.stringify(stories),
+							mimeType: "application/json",
+						},
+					],
+				};
+			},
+		);
+	}
+	registerStoryResource("top");
+	registerStoryResource("best");
+	registerStoryResource("new");
 
-export async function getBestStories() {
-	return getStories("best");
-}
-
-export async function getNewStories() {
-	return getStories("new");
-}
-
-type HNItem = {
-	id: number;
-	deleted?: boolean;
-	type?: "job" | "story" | "comment" | "poll" | "pollopt";
-	by?: string;
-	time?: number;
-	text?: string;
-	dead?: boolean;
-	parent?: number;
-	poll?: number;
-	kids?: number[];
-	url?: string;
-	score?: number;
-	title?: string;
-	parts?: number[];
-	descendants?: number;
-};
-
-export async function getStory(id: number): Promise<HNItem> {
-	const url = `${HN_API_BASE}/item/${id}.json`;
-	const response = await fetch(url, {
-		headers: {
-			"User-Agent": USER_AGENT,
+	server.resource(
+		"story",
+		new ResourceTemplate(`${HN_API_BASE}/item/{id}.json`, {
+			list: undefined,
+		}),
+		async (uri, { id }) => {
+			const story = await getStory(Number(id));
+			return {
+				contents: [
+					{
+						uri: uri.href,
+						text: JSON.stringify(story),
+						mimeType: "application/json",
+					},
+				],
+			};
 		},
-	});
-	const data = await response.json();
+	);
 
-	return data;
-}
-
-type HNUser = {
-	id: string;
-	created: number;
-	karma: number;
-	about?: string;
-	submitted?: number[];
-};
-
-export async function getUser(id: string): Promise<HNUser> {
-	const url = `${HN_API_BASE}/user/${id}.json`;
-	const response = await fetch(url, {
-		headers: {
-			"User-Agent": USER_AGENT,
+	server.resource(
+		"user",
+		new ResourceTemplate(`${HN_API_BASE}/user/{id}.json`, {
+			list: undefined,
+		}),
+		async (uri, { id }) => {
+			const user = await getUser(String(id));
+			return {
+				contents: [
+					{
+						uri: uri.href,
+						text: JSON.stringify(user),
+						mimeType: "application/json",
+					},
+				],
+			};
 		},
-	});
-	const data = await response.json();
+	);
 
-	return data;
+	return { server };
 }

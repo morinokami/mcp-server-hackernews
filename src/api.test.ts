@@ -9,7 +9,7 @@ import {
 	getStory,
 	getTopStories,
 	getUser,
-} from "./hackernews.js";
+} from "./api.js";
 
 const mockFetch = vi.fn();
 global.fetch = mockFetch;
