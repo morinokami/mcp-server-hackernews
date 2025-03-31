@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@modelcontextprotocol/inspector':
-        specifier: 0.6.0
-        version: 0.6.0(@types/node@22.13.11)(typescript@5.8.2)
+        specifier: 0.7.0
+        version: 0.7.0(@types/node@22.13.11)(typescript@5.8.2)
       '@modelcontextprotocol/sdk':
         specifier: 1.7.0
         version: 1.7.0
@@ -268,16 +268,16 @@ packages:
   '@jridgewell/trace-mapping@0.3.9':
     resolution: {integrity: sha512-3Belt6tdc8bPgAtbcmdtNJlirVoTmEb5e2gC94PnkwEW9jI6CAHUeoG85tjWP5WquqfavoMtMwiG4P926ZKKuQ==}
 
-  '@modelcontextprotocol/inspector-client@0.6.0':
-    resolution: {integrity: sha512-vcvve91pBVCzcVz3vLLBtLFY77dfrvmTxYbLa+ysY9m6YMTz6eJSIfmYjcXdTjV4QG6qn6m+5kUtjxCekXT0Rw==}
+  '@modelcontextprotocol/inspector-client@0.7.0':
+    resolution: {integrity: sha512-8wfFDUhJ7ZgP2lgwqHcwYy1GyVYxkn403Gg8LuQaBl27PkxiJHsfhL/KDRXFJ2pEoE0jeRBqq7jTWwGymkFH5w==}
     hasBin: true
 
-  '@modelcontextprotocol/inspector-server@0.6.0':
-    resolution: {integrity: sha512-GFororW8moM8E5TWVx/gXwvT1MQdI1LtVOhkBuDdLcUUqypmxo9yc2c97gkmlYdgI2U7IdR6viuFvUZ9oh4GuQ==}
+  '@modelcontextprotocol/inspector-server@0.7.0':
+    resolution: {integrity: sha512-2VeqTUJhVYebxzcJdv1GL0UgxMw5kOlhU+vJD0ch3OxOyHkTUM4eVe+a2p3VOCLkNW+DZuhc2x8WXARgXuiXNg==}
     hasBin: true
 
-  '@modelcontextprotocol/inspector@0.6.0':
-    resolution: {integrity: sha512-K4CD1rJG7Z2ejvgfuBf8W/7/sfC96r2U1snltoYwC52M94PbUFbgUp2lgr1WHUAmWwUxPXS6PpY72LF1Kke+WQ==}
+  '@modelcontextprotocol/inspector@0.7.0':
+    resolution: {integrity: sha512-gRrCxAf9NwJzOhCds21puUiMoM/ezfIHt9LwA3HkKAI/jnxM+yRcpZfcHnZoKkYTvmtYCgcL4kqR3UsWayMamg==}
     hasBin: true
 
   '@modelcontextprotocol/sdk@1.7.0':
@@ -2042,7 +2042,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
 
-  '@modelcontextprotocol/inspector-client@0.6.0':
+  '@modelcontextprotocol/inspector-client@0.7.0':
     dependencies:
       '@modelcontextprotocol/sdk': 1.7.0
       '@radix-ui/react-checkbox': 1.1.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -2074,7 +2074,7 @@ snapshots:
       - supports-color
       - tailwindcss
 
-  '@modelcontextprotocol/inspector-server@0.6.0':
+  '@modelcontextprotocol/inspector-server@0.7.0':
     dependencies:
       '@modelcontextprotocol/sdk': 1.7.0
       cors: 2.8.5
@@ -2086,10 +2086,10 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@modelcontextprotocol/inspector@0.6.0(@types/node@22.13.11)(typescript@5.8.2)':
+  '@modelcontextprotocol/inspector@0.7.0(@types/node@22.13.11)(typescript@5.8.2)':
     dependencies:
-      '@modelcontextprotocol/inspector-client': 0.6.0
-      '@modelcontextprotocol/inspector-server': 0.6.0
+      '@modelcontextprotocol/inspector-client': 0.7.0
+      '@modelcontextprotocol/inspector-server': 0.7.0
       concurrently: 9.1.2
       shell-quote: 1.8.2
       spawn-rx: 5.1.2
