@@ -25,8 +25,8 @@ importers:
         specifier: 5.46.0
         version: 5.46.0(@types/node@22.13.11)(typescript@5.8.2)
       publint:
-        specifier: 0.3.9
-        version: 0.3.9
+        specifier: 0.3.10
+        version: 0.3.10
       typescript:
         specifier: 5.8.2
         version: 5.8.2
@@ -1387,8 +1387,8 @@ packages:
     resolution: {integrity: sha512-/bjOqmgETBYB5BoEeGVea8dmvHb2m9GLy1E9W43yeyfP6QQCZGFNa+XRceJEuDB6zqr+gKpIAmlLebMpykw/MQ==}
     engines: {node: '>=10'}
 
-  package-manager-detector@0.2.11:
-    resolution: {integrity: sha512-BEnLolu+yuz22S56CU1SUKq3XC3PkwD5wv4ikR4MfGvnRVcmzXR9DwSlW2fEamyTPyXHomBJRzgapeuBvRNzJQ==}
+  package-manager-detector@1.1.0:
+    resolution: {integrity: sha512-Y8f9qUlBzW8qauJjd/eu6jlpJZsuPJm2ZAV0cDVd420o4EdpH5RPdoCv+60/TdJflGatr4sDfpAL6ArWZbM5tA==}
 
   parse-ms@4.0.0:
     resolution: {integrity: sha512-TXfryirbmq34y8QBwgqCVLi+8oA3oWx2eAnSn62ITyEhEYaWRlVZ2DvMM9eZbMs/RfxPu/PK/aBLyGj4IrqMHw==}
@@ -1449,8 +1449,8 @@ packages:
     resolution: {integrity: sha512-llQsMLSUDUPT44jdrU/O37qlnifitDP+ZwrmmZcoSKyLKvtZxpyV0n2/bD/N4tBAAZ/gJEdZU7KMraoK1+XYAg==}
     engines: {node: '>= 0.10'}
 
-  publint@0.3.9:
-    resolution: {integrity: sha512-irTwfRfYW38vomkxxoiZQtFtUOQKpz5m0p9Z60z4xpXrl1KmvSrX1OMARvnnolB5usOXeNfvLj6d/W3rwXKfBQ==}
+  publint@0.3.10:
+    resolution: {integrity: sha512-xl9X9x0iyOURsAD7IPQJAQ5TgGpozs5K8KUtqzQBSxJqtKH74ReeCpjr2jw9MFOsY9q/EbXSJNkSFM2mgyu38g==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -1461,9 +1461,6 @@ packages:
   qs@6.14.0:
     resolution: {integrity: sha512-YWWTjgABSKcvs/nWBi9PycY/JiPJqOD4JA6o9Sej2AtvSGarXxKC3OQSk4pAarbdQlKAh5D4FCQkJNkW+GAn3w==}
     engines: {node: '>=0.6'}
-
-  quansync@0.2.10:
-    resolution: {integrity: sha512-t41VRkMYbkHyCYmOvx/6URnN80H7k4X0lLdBMGsz+maAwrJQYB1djpV6vHrQIBE0WBSGqhtEHrK9U3DWWH8v7A==}
 
   queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
@@ -3139,9 +3136,7 @@ snapshots:
     dependencies:
       aggregate-error: 3.1.0
 
-  package-manager-detector@0.2.11:
-    dependencies:
-      quansync: 0.2.10
+  package-manager-detector@1.1.0: {}
 
   parse-ms@4.0.0: {}
 
@@ -3184,10 +3179,10 @@ snapshots:
       forwarded: 0.2.0
       ipaddr.js: 1.9.1
 
-  publint@0.3.9:
+  publint@0.3.10:
     dependencies:
       '@publint/pack': 0.1.2
-      package-manager-detector: 0.2.11
+      package-manager-detector: 1.1.0
       picocolors: 1.1.1
       sade: 1.8.1
 
@@ -3198,8 +3193,6 @@ snapshots:
   qs@6.14.0:
     dependencies:
       side-channel: 1.1.0
-
-  quansync@0.2.10: {}
 
   queue-microtask@1.2.3: {}
 
