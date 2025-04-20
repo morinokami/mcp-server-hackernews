@@ -23,7 +23,7 @@
 	},
 	"dependencies": {
 		"@modelcontextprotocol/inspector": "0.6.0",
-		"@modelcontextprotocol/sdk": "1.7.0"
+		"@modelcontextprotocol/sdk": "1.10.1"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
